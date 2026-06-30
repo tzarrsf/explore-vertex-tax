@@ -10,5 +10,5 @@ CreatedDate,
 CurrencyIsoCode
 FROM WebCart
 where
-CreatedBy.Name = 'Lauren Boyle' OR
+CreatedBy.Name = 'Lauren Bailey' OR
 Account.Name = 'United Coffee Bean Corp'

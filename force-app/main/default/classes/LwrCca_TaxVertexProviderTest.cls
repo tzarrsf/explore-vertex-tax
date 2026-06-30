@@ -2,7 +2,7 @@
  * @description       : This code... [Fill in the rest!]
  * @author            : Tom Zarr
  * @group             : Salesforce Commerce Partner Delivery Success (2024)
- * @last modified on  : 12-14-2024
+ * @last modified on  : 06-30-2026
  * @last modified by  : Tom Zarr
 **/
 @isTest
@@ -68,18 +68,18 @@ public class LwrCca_TaxVertexProviderTest {
     static void testgetTaxFromResponse(){
         LwrCca_TaxProviderRequest taxRequest = taxProviderRequest();
         String strVertexResponseBody = jsonString();
-        LwrCca_TaxVertexProvider avalaraTax = new LwrCca_TaxVertexProvider();
+        LwrCca_TaxVertexProvider vertexTax = new LwrCca_TaxVertexProvider();
         Test.startTest();
-        avalaraTax.getTaxFromResponse(strVertexResponseBody,taxRequest);
+        vertexTax.getTaxFromResponse(strVertexResponseBody,taxRequest);
         Test.stopTest();
     }
     @isTest
     static void testprepareCommitTransaction(){
         LwrCca_TaxProviderRequest taxRequest = taxProviderRequest();
         Map<String, String> callOutRequest = new Map<String, String>();
-        LwrCca_TaxVertexProvider avalaraTax = new LwrCca_TaxVertexProvider();
+        LwrCca_TaxVertexProvider vertexTax = new LwrCca_TaxVertexProvider();
         Test.startTest();
-        avalaraTax.prepareCommitTransaction(taxRequest, callOutRequest);
+        vertexTax.prepareCommitTransaction(taxRequest, callOutRequest);
         Test.stopTest();
     }
      private static LwrCca_TaxProviderRequest taxProviderRequest(){
