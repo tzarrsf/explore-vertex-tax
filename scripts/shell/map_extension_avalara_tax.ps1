@@ -1,1 +1,0 @@
-sf "commerce:extension:map" --registered-extension-name "TaxAvalara" --store-id {YourWebStoreId}

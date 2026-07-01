@@ -57,10 +57,8 @@ public class LwrCca_TaxProviderFactoryTest
             Consider_product_tax_codes__c = true,
             Product_Tax_Exemption__c = false,
             Customer_Tax_Exemption__c = true,            
-            // Document_Type__c = 'SalesOrder', // ← This is for Avalara
-            Document_Type__c = 'Quotation', // ← Use this is for Vertex
-            // Transaction_Type__c = 'CreateTransaction', // ← This is for Avalara
-            Transaction_Type__c = 'Sale', // ← Use this is for Vertex
+            Document_Type__c = 'SalesOrder',
+            Transaction_Type__c = 'CreateTransaction',
             Commit__c = true,
             Address_Line1__c = '123 Test St',
             Address_Line2__c = 'Suite 100',

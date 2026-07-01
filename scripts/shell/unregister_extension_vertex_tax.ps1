@@ -1,0 +1,1 @@
+sf commerce:extension:unmap --registered-extension-name TaxVertex --store-id {YourWebStoreId}

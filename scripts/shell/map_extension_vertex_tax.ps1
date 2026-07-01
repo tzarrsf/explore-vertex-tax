@@ -1,0 +1,1 @@
+sf "commerce:extension:map" --registered-extension-name "TaxVertex" --store-id {YourWebStoreId}
