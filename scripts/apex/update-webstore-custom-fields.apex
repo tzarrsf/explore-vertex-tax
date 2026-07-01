@@ -2,8 +2,8 @@
 String storeName = 'B2B Store';
 
 // New values
-String taxDocumentType = 'SalesOrder';
-String taxTransactionType = 'CreateTransaction';
+String taxDocumentType = 'Invoice';
+String taxTransactionType = 'Quotation';
 
 // Find the store
 List<WebStore> stores = [

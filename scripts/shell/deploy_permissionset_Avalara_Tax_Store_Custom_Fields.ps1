@@ -1,1 +1,0 @@
-sf project deploy start -m "PermissionSet:Avalara_Tax_Store_Custom_Fields"

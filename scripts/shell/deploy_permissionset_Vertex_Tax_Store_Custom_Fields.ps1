@@ -1,0 +1,1 @@
+sf project deploy start -m "PermissionSet:Vertex_Tax_Store_Custom_Fields"
