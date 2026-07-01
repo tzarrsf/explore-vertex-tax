@@ -4,9 +4,8 @@
  *                      To find out more about Code-It-Forward please consult these links:
  *                      https://sfdc.co/CodeItForwardCharter
  *                      https://sfdc.co/CodeItForwardRepository
- *                      https://sfdc.co/CodeItForwardRegistration
- * @group             : Salesforce Commerce Partner Delivery Success (2024)
- * @last modified on  : 06-30-2026
+ * @group             : Salesforce Commerce Partner Enablement Success
+ * @last modified on  : 07-01-2026
  * @last modified by  : Tom Zarr
 **/
 @IsTest
@@ -16,8 +15,7 @@ public class LwrCca_TaxCartCalculatorExtensionTest
     {
         Account account = new Account(Name='TestAccount');
         insert account;
-        // WebStore webStore = new WebStore(Name='B2B Store', SupportedLanguages='en_US', DefaultLanguage='en_US',  Tax_Document_Type__c ='INVOICE',Tax_Transaction_Type__c ='SALE');
-        WebStore webStore = new WebStore(Name='B2B Store', SupportedLanguages='en_US', DefaultLanguage='en_US',  Tax_Document_Type__c ='SalesOrder',Tax_Transaction_Type__c ='CreateTransaction');
+        WebStore webStore = new WebStore(Name='B2B Store', SupportedLanguages='en_US', DefaultLanguage='en_US',  Tax_Document_Type__c ='Quotation',Tax_Transaction_Type__c ='Sale');
         insert webStore;
         WebCart cart = new WebCart(Name='Cart', WebStoreId=webStore.Id, AccountId=account.Id);
         insert cart;
@@ -79,7 +77,7 @@ public class LwrCca_TaxCartCalculatorExtensionTest
     {
         Account testAccount = new Account(Name='My Account');
         insert testAccount;
-        WebStore testWebStore = new WebStore(Name='B2B Store',Tax_Document_Type__c ='INVOICE', Tax_Transaction_Type__c ='SALE');
+        WebStore testWebStore = new WebStore(Name='B2B Store',Tax_Document_Type__c ='Quotation', Tax_Transaction_Type__c ='Sale');
         insert testWebStore;
         WebCart testCart = new WebCart(Name='My Cart', WebStoreId=testWebStore.Id, AccountId=testAccount.Id);
         insert testCart;
@@ -183,7 +181,9 @@ public class LwrCca_TaxCartCalculatorExtensionTest
 
     public static Tax_Provider__mdt getCustomMetadataRecord(String myName)
     {
-         Tax_Provider__mdt testTaxProvider = new Tax_Provider__mdt(
+        System.debug('### Tax_Provider__mdt getCustomMetadataRecord(String ' + myName + ') called');
+        
+        Tax_Provider__mdt testTaxProvider = new Tax_Provider__mdt(
             Context_Name__c = myName,
             Context_Locale__c = 'en_US',
             Taxation_Policy__c = 'Standard',
@@ -195,8 +195,8 @@ public class LwrCca_TaxCartCalculatorExtensionTest
             Consider_product_tax_codes__c = true,
             Product_Tax_Exemption__c = false,
             Customer_Tax_Exemption__c = true,
-            Document_Type__c = 'INVOICE',
-            Transaction_Type__c = 'SALE',
+            Document_Type__c = 'Quotation',
+            Transaction_Type__c = 'Sale',
             Commit__c = true,
             Address_Line1__c = '123 Test St',
             Address_Line2__c = 'Suite 100',
@@ -206,7 +206,7 @@ public class LwrCca_TaxCartCalculatorExtensionTest
             Country_Code__c = 'USA',
             Impl_Class__c = 'TestImplClass',
             Request_Template__c = '{"request": "template"}'
-      			); 
+      	); 
         return testTaxProvider;
     }
 

@@ -18,10 +18,10 @@ public class LwrCca_TaxProviderFactoryTest
     {
         WebStore webStore = new WebStore(
             Name = 'B2B Store',
-            //Tax_Document_Type__c ='INVOICE',
-            Tax_Document_Type__c ='SalesOrder',
-            //Tax_Transaction_Type__c ='SALE'
-            Tax_Transaction_Type__c ='CreateTransaction'
+            // Tax_Document_Type__c ='SalesOrder', // ← This is for Avalara
+            Tax_Document_Type__c ='Quotation',  // ← This is for Vertex
+            // Tax_Transaction_Type__c ='CreateTransaction'  // ← This is for Avalara
+            Tax_Transaction_Type__c ='Sale' // ← This is for Vertex
         );
         insert webStore;
     }
@@ -32,10 +32,10 @@ public class LwrCca_TaxProviderFactoryTest
         WebStore webStore = [SELECT Id FROM WebStore WHERE Name = 'B2B Store' LIMIT 1];
         String name = 'B2B Store';
         String className = 'TestImplClass';
-        Tax_Provider__mdt taxMeta = getCustomMetadataRecord(name,className);
+        Tax_Provider__mdt taxMeta = getCustomMetadataRecord(name, className);
         Test.startTest();
         LwrCca_TaxProviderFactory taxProvide = new LwrCca_TaxProviderFactory();
-        LwrCca_TaxMetaData taxMetaData = LwrCca_TaxConfiguration.getMetaDataDTO(webStore.Id, null, null);
+        LwrCca_TaxMetaData taxMetaData = LwrCca_TaxConfiguration.getMetaDataDTO(webStore.Id, 'Sale', 'Quotation');
         LwrCca_TaxAbstractProvider taxProvider = LwrCca_TaxProviderFactory.getTaxProvider(taxMetaData);
         System.assert(taxProvider != null, 'taxProvider is null!');
         Test.stopTest();
@@ -43,6 +43,8 @@ public class LwrCca_TaxProviderFactoryTest
 
     public static Tax_Provider__mdt getCustomMetadataRecord(String myName, String className)
     {
+        System.debug('### Tax_Provider__mdt getCustomMetadataRecord(String ' + myName + ', String ' + className + ') called');
+        
         Tax_Provider__mdt testTaxProvider = new Tax_Provider__mdt(
             Context_Name__c = myName,
             Context_Locale__c = 'en_US',
@@ -54,9 +56,11 @@ public class LwrCca_TaxProviderFactoryTest
             Default_Product_Tax_Code__c = 'ProductTax',
             Consider_product_tax_codes__c = true,
             Product_Tax_Exemption__c = false,
-            Customer_Tax_Exemption__c = true,
-            Document_Type__c = 'SalesOrder',
-            Transaction_Type__c = 'CreateTransaction',
+            Customer_Tax_Exemption__c = true,            
+            // Document_Type__c = 'SalesOrder', // ← This is for Avalara
+            Document_Type__c = 'Quotation', // ← Use this is for Vertex
+            // Transaction_Type__c = 'CreateTransaction', // ← This is for Avalara
+            Transaction_Type__c = 'Sale', // ← Use this is for Vertex
             Commit__c = true,
             Address_Line1__c = '123 Test St',
             Address_Line2__c = 'Suite 100',

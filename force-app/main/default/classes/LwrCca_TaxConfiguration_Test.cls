@@ -4,9 +4,8 @@
  *                      To find out more about Code-It-Forward please consult these links:
  *                      https://sfdc.co/CodeItForwardCharter
  *                      https://sfdc.co/CodeItForwardRepository
- *                      https://sfdc.co/CodeItForwardRegistration
- * @group             : Salesforce Commerce Partner Delivery Success (2024)
- * @last modified on  : 06-30-2026
+ * @group             : Salesforce Commerce Partner Enablement Success
+ * @last modified on  : 07-01-2026
  * @last modified by  : Tom Zarr
 **/
 @IsTest
@@ -17,10 +16,8 @@ public class LwrCca_TaxConfiguration_Test
     {
         WebStore webStore = new WebStore(
             Name = 'B2B Store',
-            //Tax_Document_Type__c ='INVOICE',
-            Tax_Document_Type__c ='SalesOrder',
-            //Tax_Transaction_Type__c ='SALE'
-            Tax_Transaction_Type__c ='CreateTransaction'
+            Tax_Document_Type__c ='Quotation',
+            Tax_Transaction_Type__c ='Sale'
         );
         insert webStore;
     }
@@ -32,7 +29,7 @@ public class LwrCca_TaxConfiguration_Test
         String name = 'B2B Store';
         Tax_Provider__mdt taxMeta = getCustomMetadataRecord(name);
         Test.startTest();
-        LwrCca_TaxMetaData result = LwrCca_TaxConfiguration.getMetaDataDTO(webStore.Id, null, null);
+        LwrCca_TaxMetaData result = LwrCca_TaxConfiguration.getMetaDataDTO(webStore.Id, 'Sale', 'Quotation');
         System.assert(result != null);
         Test.stopTest();
     }
@@ -48,6 +45,8 @@ public class LwrCca_TaxConfiguration_Test
 
     public static Tax_Provider__mdt getCustomMetadataRecord(String myName)
     {
+        System.debug('### Tax_Provider__mdt getCustomMetadataRecord(String ' + myName + ') called');
+
         Tax_Provider__mdt testTaxProvider = new Tax_Provider__mdt
         (
             Context_Name__c = myName,
@@ -61,8 +60,8 @@ public class LwrCca_TaxConfiguration_Test
             Consider_product_tax_codes__c = true,
             Product_Tax_Exemption__c = false,
             Customer_Tax_Exemption__c = true,
-            Document_Type__c = 'INVOICE',
-            Transaction_Type__c = 'SALE',
+            Document_Type__c = 'Quotation',
+            Transaction_Type__c = 'Sale',
             Commit__c = true,
             Address_Line1__c = '123 Test St',
             Address_Line2__c = 'Suite 100',
@@ -70,7 +69,7 @@ public class LwrCca_TaxConfiguration_Test
             State__c = 'Test State',
             Zip_Code__c = '12345',
             Country_Code__c = 'USA',
-            Impl_Class__c = 'LwrCca_TaxVertexProvider',
+            Impl_Class__c = 'TestImplClass',
             Request_Template__c = '{"request": "template"}'
       	);
 

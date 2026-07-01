@@ -4,9 +4,8 @@
  *                      To find out more about Code-It-Forward please consult these links:
  *                      https://sfdc.co/CodeItForwardCharter
  *                      https://sfdc.co/CodeItForwardRepository
- *                      https://sfdc.co/CodeItForwardRegistration
- * @group             : Salesforce Commerce Partner Delivery Success (2024)
- * @last modified on  : 06-30-2026
+ * @group             : Salesforce Commerce Partner Enablement Success
+ * @last modified on  : 07-01-2026
  * @last modified by  : Tom Zarr
 **/
 public without sharing class LwrCca_TaxCartCalculatorExtension extends CartExtension.TaxCartCalculator
@@ -221,7 +220,7 @@ public without sharing class LwrCca_TaxCartCalculatorExtension extends CartExten
       }
     }
     request.taxTransacionType = taxMetaData.documentType != null
-      ? taxMetaData.documentType : 'SalesOrder';
+      ? taxMetaData.documentType : 'Quotation';
     request.taxableCartItems = taxableCartItems;
     return request;
   }

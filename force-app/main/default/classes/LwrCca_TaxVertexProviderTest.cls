@@ -1,8 +1,8 @@
 /**
  * @description       : This code... [Fill in the rest!]
  * @author            : Tom Zarr
- * @group             : Salesforce Commerce Partner Delivery Success (2024)
- * @last modified on  : 06-30-2026
+ * @group             : Salesforce Commerce Partner Enablement Success
+ * @last modified on  : 07-01-2026
  * @last modified by  : Tom Zarr
 **/
 @isTest
@@ -14,8 +14,8 @@ public class LwrCca_TaxVertexProviderTest {
         insert account;
         WebStore webStore = new WebStore(
             Name = 'Training',
-            Tax_Document_Type__c ='INVOICE',
-            Tax_Transaction_Type__c ='SALE'
+            Tax_Document_Type__c ='Quotation',
+            Tax_Transaction_Type__c ='Sale'
         );
         insert webStore;
         WebCart cart = new WebCart(Name='Cart', WebStoreId=webStore.Id, AccountId=account.Id);
@@ -87,7 +87,7 @@ public class LwrCca_TaxVertexProviderTest {
         WebCart webCart = [SELECT Id FROM WebCart WHERE Name = 'Cart' LIMIT 1];
         CartItem webCartItem = [SELECT Id FROM CartItem WHERE CartId=:webCart.Id LIMIT 1];
         LwrCca_TaxProviderRequest taxRequest = new LwrCca_TaxProviderRequest();
-        taxRequest.taxTransacionType = 'SalesInvoice';
+        taxRequest.taxTransacionType = 'Quotation';
         taxRequest.currencyCode = 'USD';
         taxRequest.cartId = webCart.id;
         taxRequest.hasMultipleShipments = true;
@@ -167,7 +167,7 @@ public class LwrCca_TaxVertexProviderTest {
             '    "postingDate": "2024-05-30",' +
             '    "returnAssistedParametersIndicator": false,' +
             '    "roundAtLineLevel": true,' +
-            '    "saleMessageType": "SALE",' +
+            '    "saleMessageType": "Sale",' +
             '    "seller": {' +
             '        "administrativeOrigin": {' +
             '            "city": "Los Angeles",' +

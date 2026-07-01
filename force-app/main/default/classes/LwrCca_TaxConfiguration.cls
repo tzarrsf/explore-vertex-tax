@@ -6,9 +6,8 @@
  *                      To find out more about Code-It-Forward please consult these links:
  *                      https://sfdc.co/CodeItForwardCharter
  *                      https://sfdc.co/CodeItForwardRepository
- *                      https://sfdc.co/CodeItForwardRegistration
- * @group             : Salesforce Commerce Partner Delivery Success (2024)
- * @last modified on  : 06-30-2026
+ * @group             : Salesforce Commerce Partner Enablement Success
+ * @last modified on  : 07-01-2026
  * @last modified by  : Tom Zarr
 **/
 public with sharing class LwrCca_TaxConfiguration
@@ -18,7 +17,7 @@ public with sharing class LwrCca_TaxConfiguration
 
     public LwrCca_TaxConfiguration() {}
 
-    public static LwrCca_TaxMetaData getMetaDataDTO(String contextId, String transactionType,String docType)
+    public static LwrCca_TaxMetaData getMetaDataDTO(String contextId, String transactionType, String docType)
     {
         LwrCca_TaxMetaData taxMetaDataDTO;
         String currentLocale = UserInfo.getLocale();
@@ -30,24 +29,13 @@ public with sharing class LwrCca_TaxConfiguration
         }
         else
         {
-            WebStore webStore;
-
-            if (Test.isRunningTest()) {
-                webStore = [
-                    SELECT Name, Tax_Document_Type__c, Tax_Transaction_Type__c
-                    FROM WebStore
-                    WHERE Name = 'B2B Store'
-                    LIMIT 1
-                ];
-            } else {
-                webStore = [
-                    SELECT Name, Tax_Document_Type__c, Tax_Transaction_Type__c
-                    FROM WebStore
-                    WHERE Id = :contextId
-                    LIMIT 1
-                ];
-            }
-
+            WebStore webStore = [
+                SELECT Name, Tax_Document_Type__c, Tax_Transaction_Type__c
+                FROM WebStore
+                WHERE Id = :contextId
+                LIMIT 1
+            ];
+            
             if(String.isBlank(transactionType))
             {
                 transactionType = webStore.Tax_Transaction_Type__c;
@@ -56,6 +44,53 @@ public with sharing class LwrCca_TaxConfiguration
             if(String.isBlank(docType))
             {
                 docType = webStore.Tax_Document_Type__c;
+            }
+
+            List<Tax_Provider__mdt> taxProviderList = [
+                SELECT
+                    Id,
+                    QualifiedApiName,
+                    Taxation_Policy__c,
+                    Customer_Code__c,
+                    Company_Code__c,
+                    Shipping_Items_Taxable__c,
+                    Default_Shipping_Tax_Code__c,
+                    Default_Product_Tax_Code__c,
+                    Consider_product_tax_codes__c,
+                    Product_Tax_Exemption__c,
+                    Customer_Tax_Exemption__c,
+                    Document_Type__c,
+                    Transaction_Type__c,
+                    Commit__c,
+                    Address_Line1__c,
+                    Address_Line2__c,
+                    City__c,
+                    State__c,
+                    Zip_Code__c,
+                    Country_Code__c,
+                    Impl_Class__c,
+                    Request_Template__c,
+                    Service__r.End_Point__c,
+                    Service__r.HTTP_Method__c,
+                    Service__r.Mocked_Response__c,
+                    Service__r.Service_Mode__c,
+                    Service__r.Service_Timeout__c,
+                    Service__r.Impl_Class__c,
+                    Service__r.Named_Credentials__c,
+                    Context_Name__c,
+                    Context_Locale__c
+                FROM Tax_Provider__mdt
+            ];
+
+            Integer i = 1;
+            for (Tax_Provider__mdt provider : taxProviderList) {
+                System.debug(
+                    'Record #' + i++ + '\n' +
+                    '  Context_Name__c      = ' + provider.Context_Name__c + '\n' +
+                    '  Context_Locale__c    = ' + provider.Context_Locale__c + '\n' +
+                    '  Transaction_Type__c  = ' + provider.Transaction_Type__c + '\n' +
+                    '  Document_Type__c     = ' + provider.Document_Type__c
+                );
             }
 
             taxProviderMDT = [
@@ -88,7 +123,9 @@ public with sharing class LwrCca_TaxConfiguration
                     Service__r.Service_Mode__c,
                     Service__r.Service_Timeout__c,
                     Service__r.Impl_Class__c,
-                    Service__r.Named_Credentials__c
+                    Service__r.Named_Credentials__c,
+                    Context_Name__c,
+                    Context_Locale__c
                 FROM Tax_Provider__mdt
                 WHERE
                     Context_Name__c = :webStore.Name
